@@ -13,7 +13,9 @@ namespace Commercial_Controller
 
         //Simulate when a user press a button on a floor to go back to the first floor
         public Elevator requestElevator(int userPosition, string direction)
-        {
+        { //Elevator ele = new Elevator()
+            //door.status("closed");
+
             
         }
 
