@@ -1,9 +1,10 @@
 namespace Commercial_Controller
 {
     public class Door
-    {
-        public Door()
-        {
+    { int ID = 1;
+     string status = "close";
+         public Door(){
+          
             
         }
     }
