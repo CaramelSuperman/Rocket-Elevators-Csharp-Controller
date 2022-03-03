@@ -108,5 +108,6 @@ namespace Commercial_Controller.Tests
 
             AssertElevatorsPosition(columnUsed, expectedFinalPositions);
         }
-    }
+
+     }
 }

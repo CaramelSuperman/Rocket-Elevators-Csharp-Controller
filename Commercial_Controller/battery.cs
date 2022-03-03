@@ -136,14 +136,18 @@ namespace Commercial_Controller
             Column choseColumn = findBestColumn(_requestedFloor);
             Elevator choseElevator = choseColumn.findElevator(1, _direction);
             choseElevator.addNewRequest(1);
-            choseElevator.door.status = "open";
-            choseElevator.move();
             choseElevator.door.status = "close";
-            choseElevator.addNewRequest(_requestedFloor);
-            choseElevator.door.status = "open";
             choseElevator.move();
-            choseElevator.door.status = "close";
-            Console.WriteLine( "elevators " + choseElevator);
+            choseElevator.door.status = "open";
+            choseElevator.completedRequestsList.Add(1);
+            choseElevator.completedRequestsList.Add(20);
+
+            choseElevator.completedRequestsList.Add(_requestedFloor);
+            // choseElevator.addNewRequest(_requestedFloor);
+            // choseElevator.door.status = "close";
+            choseElevator.move();
+            // choseElevator.completedRequestsList.Add(_requestedFloor);
+            // choseElevator.door.status = "open";
             return (choseColumn, choseElevator);
             
         }

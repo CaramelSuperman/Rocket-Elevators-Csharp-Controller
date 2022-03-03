@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Collections.Generic;
+using System;
 
 
 namespace Commercial_Controller
@@ -25,10 +26,12 @@ namespace Commercial_Controller
             this.currentFloor = 1;
             this.door = new Door(doorID, "open");
             this.floorRequestsList = new List<int>();
-
+            this.completedRequestsList = new List<int>();
         }
         public void move()
-        { while (this.floorRequestsList.Count != 0) {
+        { 
+            
+            while (this.floorRequestsList.Count > 0) {
             int destination = floorRequestsList[0];
             floorRequestsList.RemoveAt(0);
             this.status = "moving";
@@ -37,6 +40,8 @@ namespace Commercial_Controller
                 this.sortFloorList();
                 while (this.currentFloor < destination) {
                     this.currentFloor++;
+                    Console.WriteLine(currentFloor);
+                    this.completedRequestsList.Add(currentFloor);
                     
                 }
             } else if (this.currentFloor > destination) {
@@ -44,10 +49,11 @@ namespace Commercial_Controller
                 this.sortFloorList();
                 while (this.currentFloor > destination) {
                     this.currentFloor--;
-                    
+                    this.completedRequestsList.Add(currentFloor);
                 }
             }
             this.status = "stopped";
+            
             
         }
         this.status = "idle";

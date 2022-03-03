@@ -76,7 +76,6 @@ namespace Commercial_Controller
                 }
 
             }
-                Console.WriteLine("my buttons" + callbuttonList);
             return callbuttonList;
 
 
@@ -97,13 +96,15 @@ namespace Commercial_Controller
         public Elevator requestElevator(int userPosition, string direction)
         {
             Elevator elevator = this.findElevator(userPosition, direction);
-            elevator.addNewRequest(requestedFloor);
+            // elevator.addNewRequest(requestedFloor);
             elevator.door.status = "close";
             elevator.move();
             elevator.door.status = "open";
-            elevator.addNewRequest(1);
+            // elevator.completedRequestsList.Add(userPosition);
+            // elevator.addNewRequest(requestedFloor);
             elevator.door.status = "close";
             elevator.move();
+            // elevator.completedRequestsList.Add(userPosition);
             elevator.door.status = "open";
 
             return elevator;
@@ -115,41 +116,72 @@ namespace Commercial_Controller
         public Elevator findElevator(int requestedFloor, string requestedDirection)
         {
             var bestElevatorInformations = new BestElevatorInformations(null, 6, 10000000);
-
-            for (int i = 0; i < elevatorsList.Count; ++i)
+                if(requestedFloor == 1)
             {
-                Elevator elevator = elevatorsList[i];
-
-                if (requestedFloor == elevator.currentFloor && elevator.status == "stopped" && requestedDirection == elevator.direction)
+                foreach(Elevator elevator in this.elevatorsList)
                 {
-                    bestElevatorInformations.bestElevator = this.checkIfElevatorIsBetter(1, elevator, bestElevatorInformations, requestedFloor);
+                    if(1 == currentFloor && elevator.status == "stopped")
+                    {
+                        bestElevatorInformations = this.checkIfElevatorIsBetter(1, elevator, bestElevatorInformations, requestedFloor);
+                    }
+                    else if(1 == currentFloor && elevator.status == "idle")
+                    {
+                        bestElevatorInformations = this.checkIfElevatorIsBetter(2, elevator, bestElevatorInformations, requestedFloor);
+                    }
+                    else if(1 > elevator.currentFloor && elevator.direction == "up")
+                    {
+                        bestElevatorInformations = this.checkIfElevatorIsBetter(3, elevator, bestElevatorInformations, requestedFloor);
+                    }
+                    else if(1 < elevator.currentFloor && elevator.direction == "down")
+                    {
+                        bestElevatorInformations = this.checkIfElevatorIsBetter(3, elevator, bestElevatorInformations, requestedFloor);
+                    }
+                    else if(elevator.status == "idle")
+                    {
+                        bestElevatorInformations = this.checkIfElevatorIsBetter(4, elevator, bestElevatorInformations, requestedFloor);
+                    }
+                    else
+                    {
+                        bestElevatorInformations = this.checkIfElevatorIsBetter(5, elevator, bestElevatorInformations, requestedFloor);
+                    }
                 }
-                else if (requestedFloor > elevator.currentFloor && elevator.direction == "up" && requestedDirection == elevator.direction)
+            }
+            else
+            {
+                foreach(Elevator elevator in this.elevatorsList)
                 {
-                    bestElevatorInformations.bestElevator = this.checkIfElevatorIsBetter(2, elevator, bestElevatorInformations, requestedFloor);
-                }
-                else if (requestedFloor < elevator.currentFloor && elevator.direction == "down" && requestedDirection == elevator.direction)
-                {
-                    bestElevatorInformations.bestElevator = this.checkIfElevatorIsBetter(2, elevator, bestElevatorInformations, requestedFloor);
-                }
-                else if (elevator.status == "idle")
-                {
-                    bestElevatorInformations.bestElevator = this.checkIfElevatorIsBetter(3, elevator, bestElevatorInformations, requestedFloor);
-                }
-                else
-                {
-                    bestElevatorInformations.bestElevator = this.checkIfElevatorIsBetter(4, elevator, bestElevatorInformations, requestedFloor);
+                    if(requestedFloor == elevator.currentFloor && elevator.status == "stopped")
+                    {
+                        bestElevatorInformations = this.checkIfElevatorIsBetter(1, elevator, bestElevatorInformations, requestedFloor);
+                    }
+                    else if(requestedFloor > elevator.currentFloor && elevator.direction == "up")
+                    {
+                        bestElevatorInformations = this.checkIfElevatorIsBetter(2, elevator, bestElevatorInformations, requestedFloor);
+                    }
+                    else if(requestedFloor < elevator.currentFloor && elevator.direction == "down" && requestedDirection == "down")
+                    {
+                        bestElevatorInformations = this.checkIfElevatorIsBetter(2, elevator, bestElevatorInformations, requestedFloor);
+                    }
+                    else if(elevator.status == "idle")
+                    {
+                        bestElevatorInformations = this.checkIfElevatorIsBetter(4, elevator, bestElevatorInformations, requestedFloor);
+                    }
+                    else
+                    {
+                        bestElevatorInformations = this.checkIfElevatorIsBetter(5, elevator, bestElevatorInformations, requestedFloor);
+                    }
                 }
             }
             return bestElevatorInformations.bestElevator;
-
-
         }
 
-        public Elevator checkIfElevatorIsBetter(int scoreToCheck, Elevator newElevator, BestElevatorInformations bestElevatorInformations, int floor)
+
+        
+
+        public BestElevatorInformations checkIfElevatorIsBetter(int scoreToCheck, Elevator newElevator, BestElevatorInformations bestElevatorInformations, int floor)
         {
 
-            var theElevator = new Elevator("");
+            
 
             if (scoreToCheck < bestElevatorInformations.bestScore)
             {
@@ -166,9 +198,9 @@ namespace Commercial_Controller
                     bestElevatorInformations.referenceGap = gap;
                     bestElevatorInformations.bestScore = scoreToCheck;
                 }
-                theElevator = bestElevatorInformations.bestElevator;
+                
             }
-            return theElevator;
+            return bestElevatorInformations;
 
         }
     }
