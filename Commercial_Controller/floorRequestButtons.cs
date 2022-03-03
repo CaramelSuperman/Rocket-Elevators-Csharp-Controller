@@ -6,9 +6,13 @@ namespace Commercial_Controller
       public string status = "online";
       public int floor;
       public string direction = "up";
-        public FloorRequestButton(int _floor, string _direction)
-        {
+        public FloorRequestButton(int _id, int _floor, string _direction){
+
+          this.id = _id;
+          this.direction = _direction;
+          this.floor = _floor;
+        }
+          
             
         }
     }
-}

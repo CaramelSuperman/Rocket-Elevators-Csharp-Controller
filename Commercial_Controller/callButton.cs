@@ -7,11 +7,12 @@ namespace Commercial_Controller
         public string status = "online";
         public int floor;
         public string direction = "up";
-        public CallButton(int _floor, string _direction)
+        public CallButton(int _id, string _status, int _floor, string _direction)
         { 
             this.direction = _direction;
             this.floor = _floor;
-        System.Console.WriteLine(_direction);
+            this.status = _status;
+            this.ID = _id;
             
         }
         
