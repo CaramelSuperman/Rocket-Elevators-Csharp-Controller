@@ -3,33 +3,26 @@ using System.Collections.Generic;
 
 namespace Commercial_Controller
 {
-
-     static class global{
-        public static int columnId = 1;
-        public static int elevatorId = 1;
-        public static int floorRequestButtonId = 1;
-        public static int callButtonId = 1;
-
-     }
     public class Battery
     {
 
-        public string columnID;
-        public List<int> TheList;
+        // Global variables
+        public static int elevatorID = 1;
+        public static int floorRequestButtonID = 1;
+        public static int callButtonID = 1;
+        public static int columnID = 1;
+        public static string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        // Instance variables
         
         public int amountOfColumns;
         public int amountOfFloors;
         public int amountOfBasements;
         public int amountOfElevatorPerColumn;
-        public int elevatorID = 1;
-        public int floorRequestButtonID = 1;
-        public int callButtonID = 1;
         public int floor;
         public int buttonFloor;
-        // Attributes
         public int ID;
         public string status;
-        public List<int> whATeVER;
         public List<Column> columnsList;
         public List<FloorRequestButton> floorRequestButtonsList;
         public Battery(int _ID, int _amountOfColumns, int _amountOfFloors, int _amountOfBasements, int _amountOfElevatorPerColumn)
@@ -60,12 +53,13 @@ namespace Commercial_Controller
                 servedFloors.Add(floor);
                 floor--;
             }
-            var column = new Column(columnID, _amountOfElevatorPerColumn, servedFloors, false);
+            var column = new Column(alphabet[Battery.columnID - 1].ToString(), _amountOfElevatorPerColumn, servedFloors, false);
             this.columnsList.Add(column);
-            columnID = columnID + floor;
-
+            Battery.columnID++;
             return columnsList;
         }
+
+
         // function createColumns
         public List<Column> createColumns(int _amountOfColumns, int _amountOfFloors, int _amountOfBasements, int _amountOfElevatorPerColumn)
         {
@@ -86,11 +80,14 @@ namespace Commercial_Controller
                         floor++;
                     }
                 }
-                var column = new Column(columnID,_amountOfElevatorPerColumn, servedFloors, false);
+                var column = new Column(alphabet[Battery.columnID - 1].ToString(), _amountOfElevatorPerColumn, servedFloors, false);
                 columns.Add(column);
-                columnID = columnID + 1;
-            }return columns;
+                Battery.columnID++;
+            }
+            return columns;
         }
+
+
         // function createFloorRequestButtons
         public List<FloorRequestButton> createFloorRequestButtons(int _amountOfFloors)
         {
@@ -121,19 +118,18 @@ namespace Commercial_Controller
         // function findBestColumn
         public Column findBestColumn(int _requestedFloor)
         {
-            
-            var theColumn = new Column("", _requestedFloor,whATeVER , true);
+            Column column = null;
             foreach(Column i in this.columnsList)
             {
                 if(i.servedFloorsList.Contains(_requestedFloor))
                 {
                     
-                    theColumn = i;
+                    column = i;
                 }
             }
-            return theColumn;
-
+            return column;
         }
+        
         //Simulate when a user press a button at the lobby
         // function assignElevator
         public (Column, Elevator) assignElevator(int _requestedFloor, string _direction)

@@ -41,15 +41,11 @@ namespace Commercial_Controller
 
         public Column(string _id, int _amountOfElevators, List<int> _servedFloors, bool _isBasement)
         {
-
             this.ID = _id;
-
             this.amountOfElevators = _amountOfElevators;
             this.servedFloorsList = _servedFloors;
             this.isBasement = _isBasement;
             this.elevatorsList = createElevators(_amountOfElevators);
-
-
         }
 
         public List<CallButton> createCallButtons(int _amountOfFloors, bool _isBasement)
@@ -89,19 +85,15 @@ namespace Commercial_Controller
         public List<Elevator> createElevators(int _amountOfElevators)
         {
             List<Elevator> elevators = new List<Elevator>();
-            for (int i = 0; i < _amountOfElevators; i++)
+            for (int i = 1; i <= _amountOfElevators; i++)
             {
-                var elevator = new Elevator(elevatorID);
+                var elevator = new Elevator(this.ID + i);
                 elevators.Add(elevator);
-                elevatorID = (elevatorID + i);
+                Battery.elevatorID++;
             }
 
             return elevators;
         }
-
-
-
-
 
         public Elevator requestElevator(int userPosition, string direction)
         {
