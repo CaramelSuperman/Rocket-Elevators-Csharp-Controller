@@ -39,11 +39,11 @@ namespace Commercial_Controller
         public List<int> servedFloorsList;
 
 
-        public Column(string _id, int _amountOfElevators, List<int> _servedFloors, bool _isBasement)
+        public Column(string _id, int _amountOfElevators, List<int> _servedFloorsList, bool _isBasement)
         {
             this.ID = _id;
             this.amountOfElevators = _amountOfElevators;
-            this.servedFloorsList = _servedFloors;
+            this.servedFloorsList = _servedFloorsList;
             this.isBasement = _isBasement;
             this.elevatorsList = createElevators(_amountOfElevators);
         }
@@ -89,7 +89,6 @@ namespace Commercial_Controller
             {
                 var elevator = new Elevator(this.ID + i);
                 elevators.Add(elevator);
-                Battery.elevatorID++;
             }
 
             return elevators;

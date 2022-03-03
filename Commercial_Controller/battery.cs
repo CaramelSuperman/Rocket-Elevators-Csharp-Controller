@@ -7,10 +7,8 @@ namespace Commercial_Controller
     {
 
         // Global variables
-        public static int elevatorID = 1;
         public static int floorRequestButtonID = 1;
         public static int callButtonID = 1;
-        public static int columnID = 1;
         public static string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         // Instance variables
@@ -22,6 +20,7 @@ namespace Commercial_Controller
         public int floor;
         public int buttonFloor;
         public int ID;
+        public int columnID = 1;
         public string status;
         public List<Column> columnsList;
         public List<FloorRequestButton> floorRequestButtonsList;
@@ -53,9 +52,9 @@ namespace Commercial_Controller
                 servedFloors.Add(floor);
                 floor--;
             }
-            var column = new Column(alphabet[Battery.columnID - 1].ToString(), _amountOfElevatorPerColumn, servedFloors, false);
+            var column = new Column(alphabet[this.columnID - 1].ToString(), _amountOfElevatorPerColumn, servedFloors, false);
             this.columnsList.Add(column);
-            Battery.columnID++;
+            this.columnID++;
             return columnsList;
         }
 
@@ -80,9 +79,9 @@ namespace Commercial_Controller
                         floor++;
                     }
                 }
-                var column = new Column(alphabet[Battery.columnID - 1].ToString(), _amountOfElevatorPerColumn, servedFloors, false);
+                var column = new Column(alphabet[this.columnID - 1].ToString(), _amountOfElevatorPerColumn, servedFloors, false);
                 columns.Add(column);
-                Battery.columnID++;
+                this.columnID++;
             }
             return columns;
         }

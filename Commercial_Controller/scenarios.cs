@@ -26,7 +26,6 @@ namespace Commercial_Controller
                
                 while (column.elevatorsList[i].floorRequestsList.Count != 0)
                 {
-                     Console.WriteLine(column.elevatorsList[i].currentFloor);
                     column.elevatorsList[i].move();
                 }
             }
