@@ -28,6 +28,7 @@ namespace Commercial_Controller.Tests
             int[] expectedFinalPositions = { 5, 15, 1, 2, 20 };
 
             (Column chosenColumn, Elevator chosenElevator) = scenarios.scenario1();
+            
 
             Assert.AreEqual(chosenColumn.ID, expectedColumn.ID, "Wrong column selected, expected Column " + expectedColumn.ID + ", got Column " + chosenColumn.ID);
 

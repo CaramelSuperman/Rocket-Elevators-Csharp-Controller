@@ -22,9 +22,6 @@ namespace Commercial_Controller
 
     public class Column
     {
-
-        public int requestedFloor = 0;
-        public int currentFloor = 0;
         public string ID;
         public int callButtonId;
         public string elevatorID;
@@ -77,8 +74,6 @@ namespace Commercial_Controller
 
             }
             return callbuttonList;
-
-
         }
 
         public List<Elevator> createElevators(int _amountOfElevators)
@@ -96,17 +91,14 @@ namespace Commercial_Controller
         public Elevator requestElevator(int userPosition, string direction)
         {
             Elevator elevator = this.findElevator(userPosition, direction);
-            // elevator.addNewRequest(requestedFloor);
+            elevator.addNewRequest(userPosition);
             elevator.door.status = "close";
             elevator.move();
             elevator.door.status = "open";
-            // elevator.completedRequestsList.Add(userPosition);
-            // elevator.addNewRequest(requestedFloor);
+            elevator.addNewRequest(1);
             elevator.door.status = "close";
             elevator.move();
-            // elevator.completedRequestsList.Add(userPosition);
             elevator.door.status = "open";
-
             return elevator;
         }
 
@@ -116,59 +108,69 @@ namespace Commercial_Controller
         public Elevator findElevator(int requestedFloor, string requestedDirection)
         {
             var bestElevatorInformations = new BestElevatorInformations(null, 6, 10000000);
-                if(requestedFloor == 1)
+
+            if (requestedFloor == 1)
             {
-                foreach(Elevator elevator in this.elevatorsList)
+                foreach (Elevator elevator in this.elevatorsList)
                 {
-                    if(1 == currentFloor && elevator.status == "stopped")
+                    if (1 == elevator.currentFloor && elevator.status == "stopped")
                     {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(1, elevator, bestElevatorInformations, requestedFloor);
                     }
-                    else if(1 == currentFloor && elevator.status == "idle")
+                    else if (1 == elevator.currentFloor && elevator.status == "idle")
                     {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(2, elevator, bestElevatorInformations, requestedFloor);
                     }
-                    else if(1 > elevator.currentFloor && elevator.direction == "up")
+                    else if (1 > elevator.currentFloor && elevator.direction == "up")
+                    {
+                        bestElevatorInformations = this.checkIfElevatorIsBetter(3, elevator, bestElevatorInformations, requestedFloor);
+                        
+                    }
+                    else if (1 < elevator.currentFloor && elevator.direction == "down")
                     {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(3, elevator, bestElevatorInformations, requestedFloor);
                     }
-                    else if(1 < elevator.currentFloor && elevator.direction == "down")
-                    {
-                        bestElevatorInformations = this.checkIfElevatorIsBetter(3, elevator, bestElevatorInformations, requestedFloor);
-                    }
-                    else if(elevator.status == "idle")
+                    else if (elevator.status == "idle")
                     {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(4, elevator, bestElevatorInformations, requestedFloor);
+                        
                     }
                     else
                     {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(5, elevator, bestElevatorInformations, requestedFloor);
+                        
                     }
                 }
             }
-            else
+            else 
             {
-                foreach(Elevator elevator in this.elevatorsList)
+                foreach (Elevator elevator in this.elevatorsList)
+                
                 {
-                    if(requestedFloor == elevator.currentFloor && elevator.status == "stopped")
+                    if (requestedFloor == elevator.currentFloor && elevator.status == "stopped")
                     {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(1, elevator, bestElevatorInformations, requestedFloor);
                     }
-                    else if(requestedFloor > elevator.currentFloor && elevator.direction == "up")
+                    else if (requestedFloor > elevator.currentFloor && elevator.direction == "up" && requestedDirection == "up")
                     {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(2, elevator, bestElevatorInformations, requestedFloor);
                     }
-                    else if(requestedFloor < elevator.currentFloor && elevator.direction == "down" && requestedDirection == "down")
+                    else if (requestedFloor > elevator.currentFloor && elevator.direction == "up" && requestedDirection == "up" )
                     {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(2, elevator, bestElevatorInformations, requestedFloor);
                     }
-                    else if(elevator.status == "idle")
+                    else if (requestedFloor < elevator.currentFloor && elevator.direction == "down" && requestedDirection == "down")
+                    {
+                        bestElevatorInformations = this.checkIfElevatorIsBetter(2, elevator, bestElevatorInformations, requestedFloor);
+                    }
+                    else if (elevator.status == "idle")
                     {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(4, elevator, bestElevatorInformations, requestedFloor);
                     }
                     else
                     {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(5, elevator, bestElevatorInformations, requestedFloor);
+
                     }
                 }
             }
@@ -176,12 +178,12 @@ namespace Commercial_Controller
         }
 
 
-        
+
 
         public BestElevatorInformations checkIfElevatorIsBetter(int scoreToCheck, Elevator newElevator, BestElevatorInformations bestElevatorInformations, int floor)
         {
 
-            
+
 
             if (scoreToCheck < bestElevatorInformations.bestScore)
             {
@@ -196,9 +198,8 @@ namespace Commercial_Controller
                 {
                     bestElevatorInformations.bestElevator = newElevator;
                     bestElevatorInformations.referenceGap = gap;
-                    bestElevatorInformations.bestScore = scoreToCheck;
                 }
-                
+
             }
             return bestElevatorInformations;
 

@@ -12,7 +12,7 @@ namespace Commercial_Controller
         public static string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         // Instance variables
-        
+
         public int amountOfColumns;
         public int amountOfFloors;
         public int amountOfBasements;
@@ -29,12 +29,12 @@ namespace Commercial_Controller
             this.ID = _ID;
             this.status = "online";
             this.floorRequestButtonsList = createFloorRequestButtons(_amountOfFloors);
-            this.columnsList = createColumns(_amountOfColumns, _amountOfFloors,_amountOfBasements ,_amountOfElevatorPerColumn);
+            this.columnsList = createColumns(_amountOfColumns, _amountOfFloors, _amountOfBasements, _amountOfElevatorPerColumn);
             this.amountOfColumns = _amountOfColumns;
             this.amountOfFloors = _amountOfFloors;
             this.amountOfBasements = _amountOfBasements;
             this.amountOfElevatorPerColumn = _amountOfElevatorPerColumn;
-            if(amountOfBasements > 0)
+            if (amountOfBasements > 0)
             {
                 this.floorRequestButtonsList = createBasementFloorRequestButtons(_amountOfBasements); //parameters?
                 this.columnsList = createBasementColumn(_amountOfBasements, _amountOfElevatorPerColumn);
@@ -42,12 +42,12 @@ namespace Commercial_Controller
             }
         }
         //function createBasementColumn
-        public List<Column> createBasementColumn(int _amountOfBasements,int _amountOfElevatorPerColumn)
+        public List<Column> createBasementColumn(int _amountOfBasements, int _amountOfElevatorPerColumn)
         {
             // INIT servedFloors TO EMPTY ARRAY?
             List<int> servedFloors = new List<int>();
             floor = -1;
-            for(int i = 0; i < _amountOfBasements; i++)
+            for (int i = 0; i < _amountOfBasements; i++)
             {
                 servedFloors.Add(floor);
                 floor--;
@@ -64,16 +64,16 @@ namespace Commercial_Controller
         {
             List<Column> columns = new List<Column>();
             var amountOfFloorsPerColumn = Math.Ceiling((decimal)_amountOfFloors / _amountOfColumns);
-            
-            
+
+
             floor = 1;
-            for(int i = 0; i < _amountOfColumns; i++)
+            for (int i = 0; i < _amountOfColumns; i++)
             {
                 // SET servedFloors TO EMPTY ARRAY
                 List<int> servedFloors = new List<int>();
-                for(int e = 0; e < amountOfFloorsPerColumn; e++)
+                for (int e = 0; e < amountOfFloorsPerColumn; e++)
                 {
-                    if(floor <= _amountOfFloors)
+                    if (floor <= _amountOfFloors)
                     {
                         servedFloors.Add(floor);
                         floor++;
@@ -92,7 +92,7 @@ namespace Commercial_Controller
         {
             List<FloorRequestButton> requestButtons = new List<FloorRequestButton>();
             buttonFloor = 1;
-            for(int i = 0; i < _amountOfFloors; i++)
+            for (int i = 0; i < _amountOfFloors; i++)
             {
                 var floorRequestButton = new FloorRequestButton(floorRequestButtonID, buttonFloor, "up");
                 requestButtons.Add(floorRequestButton);
@@ -105,7 +105,7 @@ namespace Commercial_Controller
         public List<FloorRequestButton> createBasementFloorRequestButtons(int _amountOfBasements)
         {
             buttonFloor = -1;
-            for(int i = 0; i < _amountOfBasements; i++)
+            for (int i = 0; i < _amountOfBasements; i++)
             {
                 var floorRequestButton = new FloorRequestButton(floorRequestButtonID, buttonFloor, "down");
                 this.floorRequestButtonsList.Add(floorRequestButton);
@@ -118,17 +118,17 @@ namespace Commercial_Controller
         public Column findBestColumn(int _requestedFloor)
         {
             Column column = null;
-            foreach(Column i in this.columnsList)
+            foreach (Column i in this.columnsList)
             {
-                if(i.servedFloorsList.Contains(_requestedFloor))
+                if (i.servedFloorsList.Contains(_requestedFloor))
                 {
-                    
+
                     column = i;
                 }
             }
             return column;
         }
-        
+
         //Simulate when a user press a button at the lobby
         // function assignElevator
         public (Column, Elevator) assignElevator(int _requestedFloor, string _direction)
@@ -139,18 +139,12 @@ namespace Commercial_Controller
             choseElevator.door.status = "close";
             choseElevator.move();
             choseElevator.door.status = "open";
-            choseElevator.completedRequestsList.Add(1);
-            choseElevator.completedRequestsList.Add(20);
-
-            choseElevator.completedRequestsList.Add(_requestedFloor);
-            // choseElevator.addNewRequest(_requestedFloor);
-            // choseElevator.door.status = "close";
+            choseElevator.addNewRequest(_requestedFloor);
+            choseElevator.door.status = "close";
             choseElevator.move();
-            // choseElevator.completedRequestsList.Add(_requestedFloor);
-            // choseElevator.door.status = "open";
+            choseElevator.door.status = "open";
             return (choseColumn, choseElevator);
-            
         }
     }
+
 }
-    
