@@ -28,9 +28,10 @@ namespace Commercial_Controller
             this.floorRequestsList = new List<int>();
             this.completedRequestsList = new List<int>();
         }
+        //********************************** here the elevator moves************************************************//
         public void move()
         {
-            Console.WriteLine("The moving elevator's id {0}", this.ID);
+           
 
             while (this.floorRequestsList.Count != 0)
             {
@@ -38,8 +39,7 @@ namespace Commercial_Controller
                 floorRequestsList.RemoveAt(0);
                 this.status = "moving";
 
-                Console.WriteLine("current position {0}", this.currentFloor);
-                Console.WriteLine("current destination {0}", destination);
+                
 
                 if (this.currentFloor < destination)
                 {
@@ -48,7 +48,7 @@ namespace Commercial_Controller
                     while (this.currentFloor < destination)
                     {
                         this.currentFloor++;
-                        Console.WriteLine(this.currentFloor);
+                        
                     }
                     this.completedRequestsList.Add(currentFloor);
                 }
@@ -59,13 +59,12 @@ namespace Commercial_Controller
                     while (this.currentFloor > destination)
                     {
                         this.currentFloor--;
-                        Console.WriteLine(this.currentFloor);
+                        
                     }
                     this.completedRequestsList.Add(currentFloor);
                 }
                 this.status = "stopped";
-                Console.WriteLine("new current floor: {0}", this.currentFloor);
-                Console.WriteLine("--------------");
+                
 
             }
             this.status = "idle";
@@ -83,6 +82,8 @@ namespace Commercial_Controller
                 this.floorRequestsList.Reverse();
             }
         }
+
+        //******************************** her ewe add new requests*******************************************//
         public void addNewRequest(int requestedFloor)
         {
             List<int> floorRequestList = new List<int>();

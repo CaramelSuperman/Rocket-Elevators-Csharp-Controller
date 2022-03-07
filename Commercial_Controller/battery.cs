@@ -6,12 +6,12 @@ namespace Commercial_Controller
     public class Battery
     {
 
-        // Global variables
+        // *****Global variables***********//
         public static int floorRequestButtonID = 1;
         public static int callButtonID = 1;
         public static string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        // Instance variables
+        // **************Instance variables***********************//
 
         public int amountOfColumns;
         public int amountOfFloors;
@@ -41,7 +41,7 @@ namespace Commercial_Controller
                 amountOfColumns--;
             }
         }
-        //function createBasementColumn
+        //************************************ createBasementColumn function**************************************************///
         public List<Column> createBasementColumn(int _amountOfBasements, int _amountOfElevatorPerColumn)
         {
             // INIT servedFloors TO EMPTY ARRAY?
@@ -59,7 +59,7 @@ namespace Commercial_Controller
         }
 
 
-        // function createColumns
+    //**************************************************createColumns************************************************//
         public List<Column> createColumns(int _amountOfColumns, int _amountOfFloors, int _amountOfBasements, int _amountOfElevatorPerColumn)
         {
             List<Column> columns = new List<Column>();
@@ -87,7 +87,7 @@ namespace Commercial_Controller
         }
 
 
-        // function createFloorRequestButtons
+        //***************************************** create the buttons inside elevator****************************************************//
         public List<FloorRequestButton> createFloorRequestButtons(int _amountOfFloors)
         {
             List<FloorRequestButton> requestButtons = new List<FloorRequestButton>();
@@ -101,7 +101,7 @@ namespace Commercial_Controller
             }
             return requestButtons;
         }
-        // function createBasementFloorRequestButtons
+        //*************************************** we create the createBasementFloorRequestButtons here*****************************************//
         public List<FloorRequestButton> createBasementFloorRequestButtons(int _amountOfBasements)
         {
             buttonFloor = -1;
@@ -114,7 +114,7 @@ namespace Commercial_Controller
             }
             return floorRequestButtonsList;
         }
-        // function findBestColumn
+        //************************************************* this function findBestColumn*****************************************************//
         public Column findBestColumn(int _requestedFloor)
         {
             Column column = null;
@@ -129,8 +129,7 @@ namespace Commercial_Controller
             return column;
         }
 
-        //Simulate when a user press a button at the lobby
-        // function assignElevator
+        //S****************************************** here we assign the elevator***********************************************//
         public (Column, Elevator) assignElevator(int _requestedFloor, string _direction)
         {
             Column choseColumn = findBestColumn(_requestedFloor);

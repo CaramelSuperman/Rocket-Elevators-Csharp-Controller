@@ -18,7 +18,7 @@ namespace Commercial_Controller
         }
     }
 
-
+//*********************************************************this is our column class*************************************************//
 
     public class Column
     {
@@ -44,7 +44,7 @@ namespace Commercial_Controller
             this.isBasement = _isBasement;
             this.elevatorsList = createElevators(_amountOfElevators);
         }
-
+//************************************************ we create the cal buttons************************************************//
         public List<CallButton> createCallButtons(int _amountOfFloors, bool _isBasement)
         {
             if (_isBasement == true)
@@ -87,7 +87,7 @@ namespace Commercial_Controller
 
             return elevators;
         }
-
+//**************************************** we request the elvator********************************************//
         public Elevator requestElevator(int userPosition, string direction)
         {
             Elevator elevator = this.findElevator(userPosition, direction);
@@ -104,7 +104,7 @@ namespace Commercial_Controller
 
 
 
-
+//**********************************************here we find the elvator*******************************************************//
         public Elevator findElevator(int requestedFloor, string requestedDirection)
         {
             var bestElevatorInformations = new BestElevatorInformations(null, 6, 10000000);
@@ -179,7 +179,7 @@ namespace Commercial_Controller
 
 
 
-
+//************************************************************* we check for the best elevator*********************************************//
         public BestElevatorInformations checkIfElevatorIsBetter(int scoreToCheck, Elevator newElevator, BestElevatorInformations bestElevatorInformations, int floor)
         {
 
